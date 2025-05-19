@@ -1,12 +1,10 @@
 export function toUpperCase(str) {
-  // Check if the input is a string
-
-  let cleanStr = str.replace(/{STRINGTOUPPER\[(.*?)\]}/g, '$1');
-
-  if (cleanStr.includes('{STRINGTOUPPER[')) {
-    return cleanStr;
-  }
-
+  let cleanStr = str;
+  do {
+    // Replace the {STRINGTOUPPER[...]} with the content inside
+    cleanStr = cleanStr.replace(/{STRINGTOUPPER\[(.*?)\]}/g, '$1');
+  } while (cleanStr.includes('{STRINGTOUPPER['));
+  // cleanStr = cleanStr.replaceAll(/{STRINGTOUPPER\[(.*?)\]}/g, '$1');
   if (typeof cleanStr !== 'string') {
     throw new TypeError('Input must be a string');
   }

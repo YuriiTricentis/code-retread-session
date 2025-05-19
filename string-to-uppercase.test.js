@@ -9,15 +9,42 @@ test('toUpperCase {STRINGTOUPPER[hello]}', () => {
 
 test('toUpperCase {STRINGTOUPPER[hello]} with other text', () => {
   // Test with a string containing STRINGTOUPPER token
-  expect(toUpperCase('This is a test {STRINGTOUPPER[hello]}')).toBe('THIS IS A TEST HELLO');
+  expect(toUpperCase('This is a test {STRINGTOUPPER[hello]}')).toBe(
+    'THIS IS A TEST HELLO'
+  );
 });
 
 test('toUpperCase {STRINGTOUPPER[hello]} with other text on end', () => {
   // Test with a string containing STRINGTOUPPER token
-  expect(toUpperCase('{STRINGTOUPPER[hello]} this is a test')).toBe('HELLO THIS IS A TEST');
+  expect(toUpperCase('{STRINGTOUPPER[hello]} this is a test')).toBe(
+    'HELLO THIS IS A TEST'
+  );
 });
 
 test('toUpperCase {STRINGTOUPPER[hello]} with other text on end and start', () => {
   // Test with a string containing STRINGTOUPPER token
-  expect(toUpperCase('This is a test {STRINGTOUPPER[hello]} this is a test')).toBe('THIS IS A TEST HELLO THIS IS A TEST');
+  expect(
+    toUpperCase('This is a test {STRINGTOUPPER[hello]} this is a test')
+  ).toBe('THIS IS A TEST HELLO THIS IS A TEST');
+});
+
+test('toUpperCase {STRINGTOUPPER[hello]} with other text on end and start', () => {
+  // Test with a string containing STRINGTOUPPER token
+  expect(
+    toUpperCase('This is a test {STRINGTOUPPER[hello]} {STRINGTOUPPER[hello]}')
+  ).toBe('THIS IS A TEST HELLO HELLO');
+});
+
+test('toUpperCase without sting - {STRINGTOUPPER[hello]} ', () => {
+  // Test with a string containing STRINGTOUPPER token
+  expect(
+    toUpperCase('This is a test')
+  ).toBe('THIS IS A TEST');
+});
+
+test('toUpperCase {STRINGTOUPPER[hello]} with other text on end and start', () => {
+  // Test with a string containing STRINGTOUPPER token
+  expect(
+    toUpperCase('This is a test match in {STRINGTOUPPER[{STRINGTOUPPER[hello]}]}')
+  ).toBe('THIS IS A TEST MATCH IN HELLO');
 });
