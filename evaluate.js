@@ -21,7 +21,6 @@ export function evaluate(str) {
     result = processTrim(result);
 
     // Process STRINGTOLOWER
-
   } while (result !== prevResult); // Continue until no more changes are made
 
   return result;
@@ -33,7 +32,7 @@ export function evaluate(str) {
  * @returns {string} The processed string
  */
 function processStringLength(str) {
-  if (!str.includes("{STRINGLENGTH[")) {
+  if (!str.includes('{STRINGLENGTH[')) {
     return str;
   }
 
@@ -57,7 +56,7 @@ function processStringLength(str) {
  * @returns {string} The processed string
  */
 function processTrim(str) {
-  if (!str.includes("{TRIM[")) {
+  if (!str.includes('{TRIM[')) {
     return str;
   }
 
@@ -81,7 +80,7 @@ function processTrim(str) {
  * @returns {string} The processed string
  */
 function processStringToLower(str) {
-  if (!str.includes("{STRINGTOLOWER[")) {
+  if (!str.includes('{STRINGTOLOWER[')) {
     return str;
   }
 
