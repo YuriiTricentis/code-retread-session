@@ -1,26 +1,100 @@
 /**
- * Evaluates a template string, replacing STRINGLENGTH tokens with the length of the referenced variable
- * @param {string} template - The template string containing tokens to be replaced
- * @param {Object} variables - Key-value pairs of variables to use for replacement
- * @returns {string} The evaluated string with tokens replaced
+ * Processes a string containing patterns like {STRINGLENGTH[text]}, {TRIM[text]}, {STRINGTOLOWER[text]}
+ * and evaluates them according to their respective functions
+ * @param {string} str - The input string
+ * @returns {string} The evaluated string
  */
-export function evaluate(template, variables = {}) {
-  // If there are no variables or the template doesn't contain any tokens, return the template as is
-  if (!variables || !template.includes("{STRINGLENGTH[")) {
-    return template;
+
+export function evaluate(str) {
+  // Process until there are no more pattern matches
+  let result = str;
+  let prevResult;
+
+  do {
+    prevResult = result;
+
+    // Process STRINGLENGTH
+    result = processStringLength(result);
+
+    // Process TRIM
+    result = processStringToLower(result);
+    result = processTrim(result);
+
+    // Process STRINGTOLOWER
+
+  } while (result !== prevResult); // Continue until no more changes are made
+
+  return result;
+}
+
+/**
+ * Processes {STRINGLENGTH[text]} patterns
+ * @param {string} str - The input string
+ * @returns {string} The processed string
+ */
+function processStringLength(str) {
+  if (!str.includes("{STRINGLENGTH[")) {
+    return str;
   }
 
-  // Regular expression to match STRINGLENGTH tokens in the format {STRINGLENGTH[variableName]}
-  const tokenRegex = /\{STRINGLENGTH\[(.*?)\]\}/g;
+  const regex = /{STRINGLENGTH\[(.*?)\]}/g;
+  let result = str;
+  let match;
 
-  // Replace all matching tokens with the length of the referenced variable
-  return template.replace(tokenRegex, (match, variableName) => {
-    // If the variable name is missing or not in variables, return 0
-    if (!variableName || !variables[variableName]) {
-      return "0";
-    }
+  while ((match = regex.exec(str)) !== null) {
+    const fullMatch = match[0];
+    const innerText = match[1];
+    const replacement = innerText.length.toString();
+    result = result.replace(fullMatch, replacement);
+  }
 
-    // Return the length of the referenced variable
-    return variables[variableName].length.toString();
-  });
+  return result;
+}
+
+/**
+ * Processes {TRIM[text]} patterns
+ * @param {string} str - The input string
+ * @returns {string} The processed string
+ */
+function processTrim(str) {
+  if (!str.includes("{TRIM[")) {
+    return str;
+  }
+
+  const regex = /{TRIM\[(.*?)\]}/g;
+  let result = str;
+  let match;
+
+  while ((match = regex.exec(str)) !== null) {
+    const fullMatch = match[0];
+    const innerText = match[1];
+    const replacement = innerText.trim();
+    result = result.replace(fullMatch, replacement);
+  }
+
+  return result;
+}
+
+/**
+ * Processes {STRINGTOLOWER[text]} patterns
+ * @param {string} str - The input string
+ * @returns {string} The processed string
+ */
+function processStringToLower(str) {
+  if (!str.includes("{STRINGTOLOWER[")) {
+    return str;
+  }
+
+  const regex = /{STRINGTOLOWER\[(.*?)\]}/g;
+  let result = str;
+  let match;
+
+  while ((match = regex.exec(str)) !== null) {
+    const fullMatch = match[0];
+    const innerText = match[1];
+    const replacement = innerText.toLowerCase();
+    result = result.replace(fullMatch, replacement);
+  }
+
+  return result;
 }
